@@ -1,0 +1,112 @@
+#!/bin/bash
+
+DO_PREREQ=0
+DO_INSTALLHL=0
+DO_STARTHL=0
+DO_STOPHL=0
+export FABRIC_VERSION=hlfv12
+cd $(dirname "$0")
+
+install_package () {
+	package=$1
+	if [ $(dpkg-query -W -f='${Status}' $package 2>/dev/null | grep -c "ok installed") -eq 0 ]
+	then
+	  sudo apt-get install -y $package -qq > /dev/null
+	fi
+}
+
+prereq () {
+	echo "Step 1: Install Pre-requisites"
+	install_package curl
+	install_package jq
+	curl -O https://hyperledger.github.io/composer/latest/prereqs-ubuntu.sh
+	source /etc/lsb-release
+	sed -i -e "s/yakkety/${DISTRIB_CODENAME}/g" prereqs-ubuntu.sh
+	chmod u+x prereqs-ubuntu.sh
+	./prereqs-ubuntu.sh
+}
+
+installHyperledgerServers () {
+	npm install -g composer-cli@latest
+	npm install -g composer-rest-server@latest
+	npm install -g composer-playground@latest
+	mkdir ./fabric-dev-servers
+	curl -O https://raw.githubusercontent.com/hyperledger/composer-tools/master/packages/fabric-dev-servers/fabric-dev-servers.tar.gz
+	tar -xvf fabric-dev-servers.tar.gz -C ./fabric-dev-servers/
+	rm fabric-dev-servers.tar.gz
+	./fabric-dev-servers/downloadFabric.sh
+}
+
+startHyperledgerServers () {
+	./fabric-dev-servers/startFabric.sh
+	if [ ! -f ./DevServer_connection.json ]; then
+		./fabric-dev-servers/createPeerAdminCard.sh	
+	fi
+	docker rm $(docker ps -qa --no-trunc --filter "status=exited" --filter name=dev-peer0.org1.example.com-watcher-network)
+	docker volume prune -f
+	docker network prune -f
+	composer network install --card PeerAdmin@hlfv1 --archiveFile watcher-network.bna
+	NET_VERSION=$(unzip -c watcher-network.bna package.json | tail -n -1 | jq -r '.version')
+	composer card delete -c admin@watcher-network
+	composer card delete -c watcher@watcher-network
+	composer network start --networkName watcher-network --networkVersion $NET_VERSION --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1 --file admin@watcher-network.card
+	composer card import -f admin@watcher-network.card
+	composer participant add --card admin@watcher-network --data '{"$class": "watcher.model.Organization","id": "1","name": "Watcher"}'	
+	composer identity issue -c admin@watcher-network -f watch.card -u watcher -a resource:watcher.model.Organization#1
+	composer card import -f watch.card
+	nohup composer-playground > ./composer-playground-node-server.out &
+	nohup composer-rest-server -c watcher@watcher-network -n always -w true > ./composer-rest-server.out &
+}
+
+stopHyperledgerServers () {
+	kill $(ps aux | grep composer-playground | grep bin | awk '{print $2}')
+	kill $(ps aux | grep composer-rest-server | grep bin | awk '{print $2}')
+	./fabric-dev-servers/stopFabric.sh
+}
+
+if [[ $# -eq 0 ]] ; then
+    echo 'No parameters, No Party.'
+    echo 'All party: steps -prereq -install -start -stop' 
+    exit 0
+fi
+
+while [ "$1" != "" ]; do
+    PARAM=`echo $1 | awk -F= '{print $1}'`
+    case $PARAM in
+        -prereq)
+            DO_PREREQ=1
+            ;;
+        -install)
+            DO_INSTALLHL=1
+            ;;
+        -start)
+            DO_STARTHL=1
+            ;;
+        -stop)
+            DO_STOPHL=1
+            ;;
+        *)
+            echo "ERROR: unknown parameter \"$PARAM\""
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+if [[ $DO_PREREQ -eq 1 ]]; then
+   prereq
+fi
+
+if [[ $DO_INSTALLHL -eq 1 ]]; then
+   installHyperledgerServers
+fi
+
+if [[ $DO_STARTHL -eq 1 ]]; then
+   startHyperledgerServers
+fi
+
+if [[ $DO_STOPHL -eq 1 ]]; then
+   stopHyperledgerServers
+fi
+
+echo "ALL STEPS DONE"
