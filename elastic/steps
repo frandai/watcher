@@ -1,0 +1,47 @@
+#!/bin/bash
+
+
+DO_STARTES=0
+DO_STOPES=0
+cd $(dirname "$0")
+
+startES () {
+	docker-compose up -d
+}
+
+stopES () {
+	docker-compose down
+}
+
+if [[ $# -eq 0 ]] ; then
+    echo 'No parameters, No Party.'
+    echo 'All party: steps -prereq -install -start -stop' 
+    exit 0
+fi
+
+while [ "$1" != "" ]; do
+    PARAM=`echo $1 | awk -F= '{print $1}'`
+    case $PARAM in
+        -start)
+            DO_STARTES=1
+            ;;
+        -stop)
+            DO_STOPES=1
+            ;;
+        *)
+            echo "ERROR: unknown parameter \"$PARAM\""
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+if [[ $DO_STARTES -eq 1 ]]; then
+   startES
+fi
+
+if [[ $DO_STOPES -eq 1 ]]; then
+   stopES
+fi
+
+echo "ALL STEPS DONE"
