@@ -52,6 +52,71 @@ startHyperledgerServers () {
 	composer network start --networkName watcher-network --networkVersion $NET_VERSION --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1 --file admin@watcher-network.card
 	composer card import -f admin@watcher-network.card
 	composer participant add --card admin@watcher-network --data '{"$class": "watcher.model.Organization","id": "1","name": "Watcher"}'	
+	composer participant add --card admin@watcher-network --data '{"$class": "watcher.model.Organization","id": "2","name": "Org2"}'
+	composer transaction submit --card admin@watcher-network --data '{
+ "$class": "org.hyperledger.composer.system.AddAsset",
+ "resources": [
+  {
+   "$class": "watcher.model.Application",
+   "id": "AP1",
+   "name": "FTP"
+  }
+ ],
+ "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.Application"}'	
+	composer transaction submit --card admin@watcher-network --data '{
+ "$class": "org.hyperledger.composer.system.AddAsset",
+ "resources": [
+  {
+   "$class": "watcher.model.Application",
+   "id": "AP2",
+   "name": "SMB"
+  }
+ ],
+ "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.Application"}'	
+	composer transaction submit --card admin@watcher-network --data '{
+ "$class": "org.hyperledger.composer.system.AddAsset",
+ "resources": [
+  {
+   "$class": "watcher.model.EventType",
+  "id": "1",
+  "name": "Event1",
+  "application": "resource:watcher.model.Application#AP1"
+  }
+ ],
+ "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.EventType"}'	
+	composer transaction submit --card admin@watcher-network --data '{
+ "$class": "org.hyperledger.composer.system.AddAsset",
+ "resources": [
+  {
+   "$class": "watcher.model.EventType",
+  "id": "2",
+  "name": "Event2",
+  "application": "resource:watcher.model.Application#AP1"
+  }
+ ],
+ "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.EventType"}'	
+	composer transaction submit --card admin@watcher-network --data '{
+ "$class": "org.hyperledger.composer.system.AddAsset",
+ "resources": [
+  {
+   "$class": "watcher.model.EventType",
+  "id": "3",
+  "name": "Event3",
+  "application": "resource:watcher.model.Application#AP2"
+  }
+ ],
+ "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.EventType"}'	
+	composer transaction submit --card admin@watcher-network --data '{
+ "$class": "org.hyperledger.composer.system.AddAsset",
+ "resources": [
+  {
+   "$class": "watcher.model.EventType",
+  "id": "4",
+  "name": "Event4",
+  "application": "resource:watcher.model.Application#AP2"
+  }
+ ],
+ "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.EventType"}'	
 	composer identity issue -c admin@watcher-network -f watch.card -u watcher -a resource:watcher.model.Organization#1
 	composer card import -f watch.card
 	nohup composer-playground > ./composer-playground-node-server.out &
