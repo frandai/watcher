@@ -58,7 +58,7 @@ startHyperledgerServers () {
  "resources": [
   {
    "$class": "watcher.model.Application",
-   "id": "AP1",
+   "id": "ap1",
    "name": "FTP"
   }
  ],
@@ -68,7 +68,7 @@ startHyperledgerServers () {
  "resources": [
   {
    "$class": "watcher.model.Application",
-   "id": "AP2",
+   "id": "ap2",
    "name": "SMB"
   }
  ],
@@ -80,7 +80,7 @@ startHyperledgerServers () {
    "$class": "watcher.model.EventType",
   "id": "1",
   "name": "Event1",
-  "application": "resource:watcher.model.Application#AP1"
+  "application": "resource:watcher.model.Application#ap1"
   }
  ],
  "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.EventType"}'	
@@ -91,7 +91,7 @@ startHyperledgerServers () {
    "$class": "watcher.model.EventType",
   "id": "2",
   "name": "Event2",
-  "application": "resource:watcher.model.Application#AP1"
+  "application": "resource:watcher.model.Application#ap1"
   }
  ],
  "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.EventType"}'	
@@ -102,7 +102,7 @@ startHyperledgerServers () {
    "$class": "watcher.model.EventType",
   "id": "3",
   "name": "Event3",
-  "application": "resource:watcher.model.Application#AP2"
+  "application": "resource:watcher.model.Application#ap2"
   }
  ],
  "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.EventType"}'	
@@ -113,12 +113,31 @@ startHyperledgerServers () {
    "$class": "watcher.model.EventType",
   "id": "4",
   "name": "Event4",
-  "application": "resource:watcher.model.Application#AP2"
+  "application": "resource:watcher.model.Application#ap2"
   }
  ],
  "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.EventType"}'	
 	composer identity issue -c admin@watcher-network -f watch.card -u watcher -a resource:watcher.model.Organization#1
 	composer card import -f watch.card
+	composer transaction submit --card watcher@watcher-network --data '{
+  "$class": "watcher.transaction.AddRule",
+  "id": "wnc1",
+  "name": "Wannacry",
+  "typesInvolved": [
+    "resource:watcher.model.EventType#1"
+  ],
+  "URLs": [
+    "event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"
+  ],
+  "DSLs": [
+    "{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*.wnc\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"wnc1\"}}}}}"
+  ],
+  "fieldsOutputPath": [
+    "source_host",
+"monitozation_date",
+"file_created"
+  ]
+}'
 	nohup composer-playground > ./composer-playground-node-server.out &
 	nohup composer-rest-server -c watcher@watcher-network -n always -w true > ./composer-rest-server.out &
 }
