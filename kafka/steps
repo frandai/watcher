@@ -1,0 +1,90 @@
+#!/bin/bash
+
+DO_STARTK=0
+DO_STOPK=0
+DO_TESTK=0
+KAFKAIP=""
+cd $(dirname "$0")
+
+testIp () {
+	if [[ "$KAFKAIP" = "" ]]; then
+		echo 'Please set IP with: -ip=.... (Machine IP)'
+		exit
+	fi
+}
+
+startK () {
+        testIp
+        stopK
+	docker run -d \
+	--name zookeeper \
+	-p 2181:2181 \
+	jplock/zookeeper
+	docker run -d \
+	--name kafka \
+	-p 7203:7203 \
+	-p 9092:9092 \
+	-e KAFKA_ADVERTISED_HOST_NAME=$KAFKAIP \
+	-e ZOOKEEPER_IP=$KAFKAIP \
+	ches/kafka
+	sleep 5
+	docker run \
+	--rm ches/kafka kafka-topics.sh \
+	--create \
+	--topic watcher_topic \
+	--replication-factor 1 \
+	--partitions 1 \
+	--zookeeper $KAFKAIP:2181
+}
+
+stopK () {
+	echo "Shutting down Kafka..."
+	docker stop kafka
+	docker stop zookeeper
+	docker rm kafka
+	docker rm zookeeper
+}
+
+if [[ $# -eq 0 ]] ; then
+    echo 'No parameters, No Party.'
+    echo 'All party: steps -start -stop' 
+    exit 0
+fi
+
+for i in "$@"
+do
+    case $i in
+	-ip=*)
+	    KAFKAIP="${i#*=}"
+	    ;;
+        -start)
+            DO_STARTK=1
+            ;;
+        -stop)
+            DO_STOPK=1
+            ;;
+	-test)
+	    DO_TESTK=1
+	    ;;
+        *)
+            echo "ERROR: unknown parameter \"$PARAM\""
+            exit 1
+            ;;
+    esac
+    shift
+done
+
+if [[ $DO_STARTK -eq 1 ]]; then
+   startK
+fi
+
+if [[ $DO_STOPK -eq 1 ]]; then
+   stopK
+fi
+if [[ $DO_TESTK -eq 1 ]]; then
+   testIp
+   echo "USE THIS INPUT TO ENTER DATA IN KAFKA watcher_topic"
+   docker run --rm --interactive ches/kafka kafka-console-producer.sh --topic watcher_topic --broker-list $KAFKAIP:9092
+fi
+
+echo "ALL STEPS DONE"
