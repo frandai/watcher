@@ -1,6 +1,0 @@
-user: admin
-password: yourpassword
-
--enable loggin attemp plugin (copy it inapplications/wordpress/html/wp-content/plugins/wp-login-attempt-log)
-
-access to mysql: 127.0.0.1:3306 root password
