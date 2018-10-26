@@ -1,0 +1,220 @@
+2018-10-24 21:18:23 172.31.42.96 SO;fstab;/etc/;ACCESS
+2018-10-24 21:18:55 172.31.42.94 SO;login.defs;/etc/;ACCESS
+2018-10-24 21:19:05 172.31.42.92 SO;hosts;/etc/;ACCESS
+2018-10-24 21:19:56 172.31.42.93 SO;login.defs;/etc/;ACCESS
+2018-10-24 21:20:23 172.31.42.94 SO;fstab;/etc/;ACCESS
+2018-10-24 21:20:40 172.31.42.95 SO;login.defs;/etc/;ACCESS
+2018-10-24 21:20:51 172.31.42.96 SO;passwd;/etc/;ACCESS
+2018-10-24 21:21:04 172.31.42.96 SO;login.defs;/etc/;ACCESS
+2018-10-24 21:21:23 172.31.42.124 SO;fstab;/etc/;ACCESS
+2018-10-24 21:21:52 172.31.42.110 SO;login.defs;/etc/;ACCESS
+2018-10-24 21:22:24 172.31.42.125 SO;fstab;/etc/;ACCESS
+2018-10-24 21:22:36 172.31.42.125 SO;login.defs;/etc/;ACCESS
+2018-10-24 17:53:09 172.31.42.34 SO;Document2.wnc;/home/logger/test/;CREATE
+2018-10-24 17:54:09 172.31.42.65 SO;Document1.wnc;/home/logger/test/;CREATE
+2018-10-24 23:10:26 172.31.43 SO;passwd;/etc/;ACCESS;
+2018-10-24 23:31:13 172.31.43 SO;passwd;/etc/;ACCESS;
+2018-10-15 14:48:14 127.31.42.96 RO;sudo[6598]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-15 16:48:24 127.31.42.96 RO;sudo[6609]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-15 18:51:00 127.31.42.96 RO;sudo[6702]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-16 19:10:00 127.31.42.96 RO;sudo[7725]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-16 20:17:01 127.31.42.96 RO;CRON[7945]: pam_unix(cron:session): session opened for user root by (uid=0)
+2018-10-16 20:25:34 127.31.42.96 RO;sudo[8204]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-16 12:48:14 127.31.42.96 RO;sudo[6598]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-17 14:48:24 127.31.42.96 RO;sudo[6609]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-17 15:51:00 127.31.42.96 RO;sudo[6702]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-17 17:10:00 127.31.42.96 RO;sudo[7725]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-17 19:17:01 127.31.42.96 RO;CRON[7945]: pam_unix(cron:session): session opened for user root by (uid=0)
+2018-10-17 22:25:34 127.31.42.96 RO;sudo[8204]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-18 09:48:14 127.31.42.96 RO;sudo[6598]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-18 10:48:24 127.31.42.96 RO;sudo[6609]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-18 11:51:00 127.31.42.96 RO;sudo[6702]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-18 12:10:00 127.31.42.65 RO;sudo[7725]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-18 13:17:01 127.31.42.65 RO;CRON[7945]: pam_unix(cron:session): session opened for user root by (uid=0)
+2018-10-18 15:25:34 127.31.42.35 RO;sudo[8204]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-19 17:48:14 127.31.42.31 RO;sudo[6598]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-19 18:48:24 127.31.42.31 RO;sudo[6609]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-19 18:51:00 127.31.42.33 RO;sudo[6702]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-19 20:10:00 127.31.42.36 RO;sudo[7725]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-19 20:17:01 127.31.42.37 RO;CRON[7945]: pam_unix(cron:session): session opened for user root by (uid=0)
+2018-10-19 21:25:34 127.31.42.38 RO;sudo[8204]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-20 08:48:14 127.31.42.23 RO;sudo[6598]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-20 09:48:24 127.31.42.12 RO;sudo[6609]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-20 09:51:00 127.31.42.12 RO;sudo[6702]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-20 10:10:00 127.31.42.67 RO;sudo[7725]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-20 11:17:01 127.31.42.67 RO;CRON[7945]: pam_unix(cron:session): session opened for user root by (uid=0)
+2018-10-21 11:25:34 127.31.42.34 RO;sudo[8204]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-21 12:48:14 127.31.42.25 RO;sudo[6598]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-21 13:48:24 127.31.42.34 RO;sudo[6609]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-21 13:51:00 127.31.42.65 RO;sudo[6702]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-21 13:10:00 127.31.42.34 RO;sudo[7725]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-22 07:17:01 127.31.42.23 RO;CRON[7945]: pam_unix(cron:session): session opened for user root by (uid=0)
+2018-10-22 08:25:34 127.31.42.54 RO;sudo[8204]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-22 09:48:14 127.31.42.65 RO;sudo[6598]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-22 14:48:24 127.31.42.35 RO;sudo[6609]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-22 16:51:00 127.31.42.36 RO;sudo[6702]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-22 17:10:00 127.31.42.35 RO;sudo[7725]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-22 18:17:01 127.31.42.43 RO;CRON[7945]: pam_unix(cron:session): session opened for user root by (uid=0)
+2018-10-23 20:25:34 127.31.42.23 RO;sudo[8204]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-23 21:48:14 127.31.42.35 RO;sudo[6598]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-23 21:48:24 127.31.42.34 RO;sudo[6609]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-23 21:51:00 127.31.42.23 RO;sudo[6702]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-23 22:10:00 127.31.42.25 RO;sudo[7725]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-23 22:17:01 127.31.42.43 RO;CRON[7945]: pam_unix(cron:session): session opened for user root by (uid=0)
+2018-10-23 23:25:34 127.31.42.27 RO;sudo[8204]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-23 23:48:14 127.31.42.14 RO;sudo[6598]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-23 23:48:24 127.31.42.13 RO;sudo[6609]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-24 23:51:00 127.31.42.16 RO;sudo[6702]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-24 08:10:00 127.31.42.12 RO;sudo[7725]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-24 08:17:01 127.31.42.11 RO;CRON[7945]: pam_unix(cron:session): session opened for user root by (uid=0)
+2018-10-24 09:25:34 127.31.42.25 RO;sudo[8204]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-24 09:48:14 127.31.42.23 RO;sudo[6598]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-24 09:48:24 127.31.42.54 RO;sudo[6609]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-24 09:51:00 127.31.42.23 RO;sudo[6702]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-24 10:10:00 127.31.42.35 RO;sudo[7725]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-24 10:17:01 127.31.42.45 RO;CRON[7945]: pam_unix(cron:session): session opened for user root by (uid=0)
+2018-10-24 10:25:34 127.31.42.65 RO;sudo[8204]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-25 10:51:00 127.31.42.12 RO;sudo[6702]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-25 11:10:00 127.31.42.11 RO;sudo[7725]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-25 11:17:01 127.31.42.12 RO;CRON[7945]: pam_unix(cron:session): session opened for user root by (uid=0)
+2018-10-25 11:25:34 127.31.42.15 RO;sudo[8204]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-25 12:48:14 127.31.42.16 RO;sudo[6598]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-25 12:48:24 127.31.42.48 RO;sudo[6609]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-25 12:51:00 127.31.42.74 RO;sudo[6702]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-25 13:10:00 127.31.42.47 RO;sudo[7725]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-26 13:17:01 127.31.42.56 RO;CRON[7945]: pam_unix(cron:session): session opened for user root by (uid=0)
+2018-10-26 13:25:34 127.31.42.23 RO;sudo[8204]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-26 14:48:14 127.31.42.34 RO;sudo[6598]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-26 15:48:24 127.31.42.38 RO;sudo[6609]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-27 16:51:00 127.31.42.37 RO;sudo[6702]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-27 17:10:00 127.31.42.24 RO;sudo[7725]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-27 18:17:01 127.31.42.15 RO;CRON[7945]: pam_unix(cron:session): session opened for user root by (uid=0)
+2018-10-27 19:25:34 127.31.42.67 RO;sudo[8204]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-28 22:51:00 127.31.42.87 RO;sudo[6702]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-28 22:10:00 127.31.42.34 RO;sudo[7725]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-28 22:17:01 127.31.42.43 RO;CRON[7945]: pam_unix(cron:session): session opened for user root by (uid=0)
+2018-10-28 22:25:34 127.31.42.14 RO;sudo[8204]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-28 23:48:14 127.31.42.23 RO;sudo[6598]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-28 23:48:24 127.31.42.54 RO;sudo[6609]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-28 23:51:00 127.31.42.23 RO;sudo[6702]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-28 10:10:00 127.31.42.45 RO;sudo[7725]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-28 11:17:01 127.31.42.65 RO;CRON[7945]: pam_unix(cron:session): session opened for user root by (uid=0)
+2018-10-28 12:25:34 127.31.42.54 RO;sudo[8204]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-28 13:48:14 127.31.42.12 RO;sudo[6598]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-28 14:48:24 127.31.42.34 RO;sudo[6609]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-28 15:51:00 127.31.42.45 RO;sudo[6702]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-28 16:10:00 127.31.42.47 RO;sudo[7725]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-28 17:17:01 127.31.42.43 RO;CRON[7945]: pam_unix(cron:session): session opened for user root by (uid=0)
+2018-10-28 18:25:34 127.31.42.32 RO;sudo[8204]: pam_unix(sudo:session): session opened for user root by (uid=0)
+2018-10-15 07:18:23 127.31.42.23 SO;fstab;/etc/;ACCESS
+2018-10-15 08:18:55 127.31.42.42 SO;login.defs;/etc/;ACCESS
+2018-10-16 09:19:05 127.31.42.39 SO;hosts;/etc/;ACCESS
+2018-10-16 10:19:56 127.31.42.24 SO;login.defs;/etc/;ACCESS
+2018-10-16 11:20:23 127.31.42.26 SO;fstab;/etc/;ACCESS
+2018-10-16 12:20:40 127.31.42.18 SO;login.defs;/etc/;ACCESS
+2018-10-17 13:20:51 127.31.42.26 SO;passwd;/etc/;ACCESS
+2018-10-17 15:21:04 127.31.42.42 SO;login.defs;/etc/;ACCESS
+2018-10-17 21:21:23 127.31.42.39 SO;fstab;/etc/;ACCESS
+2018-10-17 21:21:52 127.31.42.63 SO;login.defs;/etc/;ACCESS
+2018-10-17 21:22:24 127.31.42.42 SO;fstab;/etc/;ACCESS
+2018-10-18 21:19:56 127.31.42.23 SO;login.defs;/etc/;ACCESS
+2018-10-18 21:20:23 127.31.42.26 SO;fstab;/etc/;ACCESS
+2018-10-18 21:20:40 127.31.42.23 SO;login.defs;/etc/;ACCESS
+2018-10-18 21:20:51 127.31.42.42 SO;passwd;/etc/;ACCESS
+2018-10-18 21:21:04 127.31.42.23 SO;login.defs;/etc/;ACCESS
+2018-10-19 21:21:23 127.31.42.42 SO;fstab;/etc/;ACCESS
+2018-10-19 21:21:52 127.31.42.63 SO;login.defs;/etc/;ACCESS
+2018-10-19 21:22:24 127.31.42.26 SO;fstab;/etc/;ACCESS
+2018-10-19 21:22:36 127.31.42.39 SO;login.defs;/etc/;ACCESS
+2018-10-19 21:19:56 127.31.42.23 SO;login.defs;/etc/;ACCESS
+2018-10-20 21:20:23 127.31.42.26 SO;fstab;/etc/;ACCESS
+2018-10-20 21:20:40 127.31.42.23 SO;login.defs;/etc/;ACCESS
+2018-10-21 21:20:51 127.31.42.39 SO;passwd;/etc/;ACCESS
+2018-10-21 21:21:04 127.31.42.23 SO;login.defs;/etc/;ACCESS
+2018-10-21 21:21:23 127.31.42.63 SO;fstab;/etc/;ACCESS
+2018-10-22 21:21:52 127.31.42.42 SO;login.defs;/etc/;ACCESS
+2018-10-22 21:22:24 127.31.42.26 SO;fstab;/etc/;ACCESS
+2018-10-22 21:19:56 127.31.42.23 SO;login.defs;/etc/;ACCESS
+2018-10-23 21:20:23 127.31.42.23 SO;fstab;/etc/;ACCESS
+2018-10-23 21:20:40 127.31.42.39 SO;login.defs;/etc/;ACCESS
+2018-10-23 21:20:51 127.31.42.42 SO;passwd;/etc/;ACCESS
+2018-10-23 21:21:04 127.31.42.23 SO;login.defs;/etc/;ACCESS
+2018-10-23 21:21:23 127.31.42.23 SO;fstab;/etc/;ACCESS
+2018-10-24 21:21:52 127.31.42.23 SO;login.defs;/etc/;ACCESS
+2018-10-25 21:22:24 127.31.42.26 SO;fstab;/etc/;ACCESS
+2018-10-26 21:19:56 127.31.42.63 SO;login.defs;/etc/;ACCESS
+2018-10-26 21:20:23 127.31.42.39 SO;fstab;/etc/;ACCESS
+2018-10-26 21:20:40 127.31.42.23 SO;login.defs;/etc/;ACCESS
+2018-10-26 21:20:51 127.31.42.42 SO;passwd;/etc/;ACCESS
+2018-10-27 21:21:04 127.31.42.63 SO;login.defs;/etc/;ACCESS
+2018-10-27 21:21:23 127.31.42.42 SO;fstab;/etc/;ACCESS
+2018-10-27 21:21:52 127.31.42.23 SO;login.defs;/etc/;ACCESS
+2018-10-27 21:22:24 127.31.42.39 SO;fstab;/etc/;ACCESS
+2018-10-28 21:19:56 127.31.42.23 SO;login.defs;/etc/;ACCESS
+2018-10-28 21:20:23 127.31.42.63 SO;fstab;/etc/;ACCESS
+2018-10-28 21:20:40 127.31.42.26 SO;login.defs;/etc/;ACCESS
+2018-10-28 21:20:51 127.31.42.42 SO;passwd;/etc/;ACCESS
+2018-10-28 21:21:04 127.31.42.63 SO;login.defs;/etc/;ACCESS
+2018-10-19 21:21:23 127.31.42.23 SO;fstab;/etc/;ACCESS
+2018-10-19 21:21:52 127.31.42.39 SO;login.defs;/etc/;ACCESS
+2018-10-20 21:22:24 127.31.42.23 SO;fstab;/etc/;ACCESS
+2018-10-20 21:19:56 127.31.42.23 SO;login.defs;/etc/;ACCESS
+2018-10-22 21:20:23 127.31.42.42 SO;fstab;/etc/;ACCESS
+2018-10-21 21:20:40 127.31.42.26 SO;login.defs;/etc/;ACCESS
+2018-10-24 21:20:51 127.31.42.23 SO;passwd;/etc/;ACCESS
+2018-10-25 21:21:04 127.31.42.23 SO;login.defs;/etc/;ACCESS
+2018-10-26 21:21:23 127.31.42.42 SO;fstab;/etc/;ACCESS
+2018-10-27 21:21:52 127.31.42.39 SO;login.defs;/etc/;ACCESS
+2018-10-26 21:22:24 127.31.42.23 SO;fstab;/etc/;ACCESS
+2018-10-22 21:19:56 127.31.42.63 SO;login.defs;/etc/;ACCESS
+2018-10-25 21:20:23 127.31.42.23 SO;fstab;/etc/;ACCESS
+2018-10-26 21:20:40 127.31.42.63 SO;login.defs;/etc/;ACCESS
+2018-10-21 21:20:51 127.31.42.42 SO;passwd;/etc/;ACCESS
+2018-10-20 21:21:04 127.31.42.23 SO;login.defs;/etc/;ACCESS
+2018-10-19 21:21:23 127.31.42.26 SO;fstab;/etc/;ACCESS
+2018-10-20 21:21:52 127.31.42.23 SO;login.defs;/etc/;ACCESS
+2018-10-22 21:22:24 127.31.42.39 SO;fstab;/etc/;ACCESS
+2018-10-24 17:54:09 127.31.42.23 SO;Document1.wnc;/home/logger/test/;CREATE
+2018-10-24 17:54:09 127.31.42.23 SO;Document2.wnc;/home/logger/test/;CREATE
+2018-10-24 17:54:10 127.31.42.23 SO;Document3.wnc;/home/logger/test/;CREATE
+2018-10-24 17:54:11 127.31.42.23 SO;Document4.wnc;/home/logger/test/;CREATE
+2018-10-24 17:54:12 127.31.42.23 SO;Document5.wnc;/home/logger/test/;CREATE
+2018-10-24 17:54:14 127.31.42.23 SO;Document6.wnc;/home/logger/test/;CREATE
+2018-10-24 17:54:16 127.31.42.23 SO;Document7.wnc;/home/logger/test/;CREATE
+2018-10-24 17:54:17 127.31.42.23 SO;Document8.wnc;/home/logger/test/;CREATE
+2018-10-24 17:54:18 127.31.42.23 SO;Document9.wnc;/home/logger/test/;CREATE
+2018-10-24 17:54:20 127.31.42.23 SO;File1.wnc;/home/logger/test/;CREATE
+2018-10-24 17:54:22 127.31.42.23 SO;File2.wnc;/home/logger/test/;CREATE
+2018-10-24 17:54:25 127.31.42.23 SO;File3.wnc;/home/logger/test/;CREATE
+2018-10-24 17:54:28 127.31.42.23 SO;File4.wnc;/home/logger/test/;CREATE
+2018-10-24 17:54:30 127.31.42.23 SO;File5.wnc;/home/logger/test/;CREATE
+2018-10-19 09:32:27 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: admin] [Source: 192.168.23.54] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 09:32:27 UTC  Oct 16 2018
+2018-10-19 10:32:28 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: xe49050] [Source: 192.168.22.24] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 10:32:28 UTC  Nov 16 2018
+2018-10-19 10:32:28 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: xe49050] [Source: 192.168.21.76] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 10:32:29 UTC  Nov 16 2018
+2018-10-19 10:32:30 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: me34564] [Source: 192.168.53.45] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 10:32:30 UTC  Nov 16 2018
+2018-10-19 11:32:32 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: admin] [Source: 192.168.103.56] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 11:32:32 UTC  Nov 16 2018
+2018-10-19 11:32:33 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: me34564] [Source: 192.168.45.76] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 11:32:33 UTC  Nov 16 2018
+2018-10-19 11:32:36 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: xe49050] [Source: 192.168.41.41] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 11:32:36 UTC  Nov 16 2018
+2018-10-19 12:32:38 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: e340542] [Source: 192.168.34.54] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 12:32:38 UTC  Nov 16 2018
+2018-10-19 12:32:40 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: xe49050] [Source: 192.168.87.18] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 12:32:40 UTC  Nov 16 2018
+2018-10-19 16:32:44 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: e340542] [Source: 192.168.14.87] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 16:32:44 UTC  Nov 16 2018
+2018-10-19 19:32:49 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: e340542] [Source: 192.168.23.102] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 19:32:49 UTC Nov 16 2018
+2018-10-22 12:32:38 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: xe49456] [Source: 192.168.57.54] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 12:32:38 UTC  Nov 16 2018
+2018-10-22 12:32:40 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: me4902] [Source: 192.168.23.65] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 12:32:40 UTC  Nov 16 2018
+2018-10-22 16:32:44 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: e340212] [Source: 192.168.37.45] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 16:32:44 UTC  Nov 16 2018
+2018-10-22 19:32:49 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: e340232] [Source: 192.168.16.34] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 19:32:49 UTC Nov 16 2018
+2018-10-23 13:32:38 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: xe49456] [Source: 192.168.67.87] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 13:32:38 UTC  Nov 16 2018
+2018-10-23 16:32:40 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: admin] [Source: 192.168.27.23] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 16:32:40 UTC  Nov 16 2018
+2018-10-23 17:32:44 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: e340212] [Source: 192.168.102.23] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 17:32:44 UTC  Nov 16 2018
+2018-10-23 19:32:49 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: e340232] [Source: 192.168.104.54] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 19:32:49 UTC Nov 16 2018
+2018-10-24 11:32:40 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: admin] [Source: 192.168.23.54] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 11:32:40 UTC  Nov 16 2018
+2018-10-24 11:32:41 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: admin] [Source: 192.168.23.54] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 11:32:41 UTC  Nov 16 2018
+2018-10-24 11:32:43 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: admin] [Source: 192.168.23.54] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 11:32:43 UTC Nov 16 2018
+2018-10-24 11:32:45 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: admin] [Source: 192.168.23.54] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 11:32:45 UTC  Nov 16 2018
+2018-10-24 11:32:47 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: admin] [Source: 192.168.23.54] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 11:32:47 UTC  Nov 16 2018
+2018-10-24 11:32:50 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: admin] [Source: 192.168.23.54] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 11:32:50 UTC Nov 16 2018
+2018-10-24 11:32:51 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: admin] [Source: 192.168.23.54] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 11:32:51 UTC  Nov 16 2018
+2018-10-24 17:32:54 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: e340212] [Source: 192.168.45.54] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 17:32:54 UTC  Nov 16 2018
+2018-10-24 19:32:53 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: e340232] [Source: 192.168.48.94] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 19:32:49 UTC Nov 16 2018
+2018-10-24 13:32:51 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: xe47665] [Source: 192.168.123.74] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 13:32:51 UTC  Nov 16 2018
+2018-10-24 17:32:54 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: e234562] [Source: 192.168.123.14] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 17:32:54 UTC  Nov 16 2018
