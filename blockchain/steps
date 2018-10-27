@@ -128,9 +128,12 @@ startHyperledgerServers () {
  ],
  "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.EventType"}'	
 	composer identity issue -c admin@watcher-network -f watch.card -u watcher -a resource:watcher.model.Organization#org1
+	composer identity issue -c admin@watcher-network -f umbrella.card -u umbrella -a resource:watcher.model.Organization#org2
 	composer card import -f watch.card
+	composer card import -f umbrella.card
 	nohup composer-playground > ./composer-playground-node-server.out &
 	nohup composer-rest-server -c watcher@watcher-network -n always -w true > ./composer-rest-server.out &
+	nohup composer-rest-server -c umbrella@watcher-network -n always -w true -p 3001 > ./composer-rest-server.out &
 	echo "wait another 15 seconds..."
 	sleep 15
 	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "accesspasswd","name": "Access to /etc/passwd","typesInvolved": ["resource:watcher.model.EventType#osac"],"URLs": ["event-os-{TODAY}-osac,event-os-{TODAY-1}-osac/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"term\":{\"file_created\":\"/etc/passwd\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"accesspasswd\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
