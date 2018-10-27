@@ -51,15 +51,15 @@ startHyperledgerServers () {
 	composer card delete -c watcher@watcher-network
 	composer network start --networkName watcher-network --networkVersion $NET_VERSION --networkAdmin admin --networkAdminEnrollSecret adminpw --card PeerAdmin@hlfv1 --file admin@watcher-network.card
 	composer card import -f admin@watcher-network.card
-	composer participant add --card admin@watcher-network --data '{"$class": "watcher.model.Organization","id": "1","name": "Watcher"}'	
-	composer participant add --card admin@watcher-network --data '{"$class": "watcher.model.Organization","id": "2","name": "Org2"}'
+	composer participant add --card admin@watcher-network --data '{"$class": "watcher.model.Organization","id": "org1","name": "Watcher"}'	
+	composer participant add --card admin@watcher-network --data '{"$class": "watcher.model.Organization","id": "org2","name": "Umbrella"}'
 	composer transaction submit --card admin@watcher-network --data '{
  "$class": "org.hyperledger.composer.system.AddAsset",
  "resources": [
   {
    "$class": "watcher.model.Application",
-   "id": "ap1",
-   "name": "FTP"
+   "id": "os",
+   "name": "Operative System"
   }
  ],
  "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.Application"}'	
@@ -68,8 +68,18 @@ startHyperledgerServers () {
  "resources": [
   {
    "$class": "watcher.model.Application",
-   "id": "ap2",
-   "name": "SMB"
+   "id": "ro",
+   "name": "Root Session"
+  }
+ ],
+ "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.Application"}'	
+	composer transaction submit --card admin@watcher-network --data '{
+ "$class": "org.hyperledger.composer.system.AddAsset",
+ "resources": [
+  {
+   "$class": "watcher.model.Application",
+   "id": "snmp",
+   "name": "Simple Network Management Protocol"
   }
  ],
  "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.Application"}'	
@@ -78,9 +88,9 @@ startHyperledgerServers () {
  "resources": [
   {
    "$class": "watcher.model.EventType",
-  "id": "1",
-  "name": "Event1",
-  "application": "resource:watcher.model.Application#ap1"
+  "id": "oscr",
+  "name": "Operative System - Create File",
+  "application": "resource:watcher.model.Application#os"
   }
  ],
  "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.EventType"}'	
@@ -89,9 +99,9 @@ startHyperledgerServers () {
  "resources": [
   {
    "$class": "watcher.model.EventType",
-  "id": "2",
-  "name": "Event2",
-  "application": "resource:watcher.model.Application#ap1"
+  "id": "osac",
+  "name": "Operative System - Access File",
+  "application": "resource:watcher.model.Application#os"
   }
  ],
  "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.EventType"}'	
@@ -100,9 +110,9 @@ startHyperledgerServers () {
  "resources": [
   {
    "$class": "watcher.model.EventType",
-  "id": "3",
-  "name": "Event3",
-  "application": "resource:watcher.model.Application#ap2"
+  "id": "rose",
+  "name": "Root Session",
+  "application": "resource:watcher.model.Application#ro"
   }
  ],
  "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.EventType"}'	
@@ -111,35 +121,76 @@ startHyperledgerServers () {
  "resources": [
   {
    "$class": "watcher.model.EventType",
-  "id": "4",
-  "name": "Event4",
-  "application": "resource:watcher.model.Application#ap2"
+  "id": "snla",
+  "name": "SNMP - Incorrect Login",
+  "application": "resource:watcher.model.Application#os"
   }
  ],
  "targetRegistry": "resource:org.hyperledger.composer.system.AssetRegistry#watcher.model.EventType"}'	
-	composer identity issue -c admin@watcher-network -f watch.card -u watcher -a resource:watcher.model.Organization#1
+	composer identity issue -c admin@watcher-network -f watch.card -u watcher -a resource:watcher.model.Organization#org1
 	composer card import -f watch.card
-	composer transaction submit --card watcher@watcher-network --data '{
-  "$class": "watcher.transaction.AddRule",
-  "id": "wnc1",
-  "name": "Wannacry",
-  "typesInvolved": [
-    "resource:watcher.model.EventType#1"
-  ],
-  "URLs": [
-    "event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"
-  ],
-  "DSLs": [
-    "{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*.wnc\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"wnc1\"}}}}}"
-  ],
-  "fieldsOutputPath": [
-    "source_host",
-"monitozation_date",
-"file_created"
-  ]
-}'
 	nohup composer-playground > ./composer-playground-node-server.out &
 	nohup composer-rest-server -c watcher@watcher-network -n always -w true > ./composer-rest-server.out &
+	echo "wait another 15 seconds..."
+	sleep 15
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "accesspasswd","name": "Access to /etc/passwd","typesInvolved": ["resource:watcher.model.EventType#osac"],"URLs": ["event-os-{TODAY}-osac,event-os-{TODAY-1}-osac/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"term\":{\"file_created\":\"/etc/passwd\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"accesspasswd\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "accessshadow","name": "Access to /etc/shadow","typesInvolved": ["resource:watcher.model.EventType#osac"],"URLs": ["event-os-{TODAY}-osac,event-os-{TODAY-1}-osac/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"term\":{\"file_created\":\"/etc/shadow\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"accessshadow\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "accessgroups","name": "Access to /etc/groups","typesInvolved": ["resource:watcher.model.EventType#osac"],"URLs": ["event-os-{TODAY}-osac,event-os-{TODAY-1}-osac/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"term\":{\"file_created\":\"/etc/groups\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"accessgroups\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "accessgshadow","name": "Access to /etc/gshadow","typesInvolved": ["resource:watcher.model.EventType#osac"],"URLs": ["event-os-{TODAY}-osac,event-os-{TODAY-1}-osac/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"term\":{\"file_created\":\"/etc/gshadow\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"accessgshadow\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "accesslogin","name": "Access to /etc/login.defs","typesInvolved": ["resource:watcher.model.EventType#osac"],"URLs": ["event-os-{TODAY}-osac,event-os-{TODAY-1}-osac/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"term\":{\"file_created\":\"/etc/login.defs\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"accesslogin\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "accessshells","name": "Access to /etc/shells","typesInvolved": ["resource:watcher.model.EventType#osac"],"URLs": ["event-os-{TODAY}-osac,event-os-{TODAY-1}-osac/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"term\":{\"file_created\":\"/etc/shells\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"accessshells\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "accesssecuretty","name": "Access to /etc/securetty","typesInvolved": ["resource:watcher.model.EventType#osac"],"URLs": ["event-os-{TODAY}-osac,event-os-{TODAY-1}-osac/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"term\":{\"file_created\":\"/etc/securetty\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"accesssecuretty\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom1","name": "Ransomware ecc","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*ecc\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom1\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom2","name": "Ransomware ezz","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*ezz\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom2\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom3","name": "Ransomware exx","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*exx\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom3\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom4","name": "Ransomware zzz","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*zzz\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom4\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom5","name": "Ransomware xyz","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*xyz\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom5\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom6","name": "Ransomware aaa","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*aaa\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom6\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom7","name": "Ransomware abc","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*abc\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom7\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom8","name": "Ransomware ccc","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*ccc\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom8\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom9","name": "Ransomware vvv","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*vvv\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom9\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom10","name": "Ransomware xxx","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*xxx\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom10\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom11","name": "Ransomware ttt","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*ttt\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom11\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom12","name": "Ransomware micro","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*micro\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom12\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom13","name": "Ransomware encrypted","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*encrypted\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom13\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom14","name": "Ransomware locked","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*locked\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom14\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom15","name": "Ransomware crypto","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*crypto\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom15\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom16","name": "Ransomware _crypt","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*_crypt\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom16\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom17","name": "Ransomware crinf","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*crinf\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom17\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom18","name": "Ransomware r5a","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*r5a\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom18\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom19","name": "Ransomware XRNT","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*XRNT\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom19\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom20","name": "Ransomware XTBL","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*XTBL\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom20\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom21","name": "Ransomware crypt","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*crypt\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom21\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom22","name": "Ransomware R16M01D05","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*R16M01D05\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom22\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom23","name": "Ransomware pzdc","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*pzdc\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom23\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom24","name": "Ransomware good","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*good\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom24\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom25","name": "Ransomware LOL!","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*LOL!\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom25\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom26","name": "Ransomware OMG!","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*OMG!\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom26\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom27","name": "Ransomware RDM","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*RDM\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom27\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom28","name": "Ransomware RRK","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*RRK\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom28\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom29","name": "Ransomware encryptedRSA","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*encryptedRSA\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom29\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom30","name": "Ransomware crjoker","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*crjoker\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom30\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom31","name": "Ransomware EnCiPhErEd","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*EnCiPhErEd\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom31\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom32","name": "Ransomware LeChiffre","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*LeChiffre\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom32\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom33","name": "Ransomware keybtc@inbox_com","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*keybtc@inbox_com\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom33\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom34","name": "Ransomware 0x0","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*0x0\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom34\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom35","name": "Ransomware bleep","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*bleep\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom35\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom36","name": "Ransomware 1999","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*1999\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom36\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom37","name": "Ransomware vault","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*vault\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom37\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom38","name": "Ransomware HA3","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*HA3\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom38\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom39","name": "Ransomware toxcrypt","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*toxcrypt\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom39\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom40","name": "Ransomware magic","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*magic\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom40\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom41","name": "Ransomware SUPERCRYPT","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*SUPERCRYPT\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom41\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom42","name": "Ransomware CTBL","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*CTBL\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom42\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom43","name": "Ransomware CTB2","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*CTB2\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom43\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "ransom44","name": "Ransomware locky","typesInvolved": ["resource:watcher.model.EventType#oscr"],"URLs": ["event-os-{TODAY}-oscr,event-os-{TODAY-1}-oscr/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"regexp\":{\"file_created\":\".*locky\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"ransom44\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","file_created","event_date"]}' &
+	#ADD RULE TO ACCESS ROOT 3 times in same minute -> AGGREGATOR https://www.elastic.co/guide/en/elasticsearch/reference/current/search-aggregations-bucket-datehistogram-aggregation.html
+	#CAN BE DONE WITH TOP_HITS. ADD AN OPTIONAL FIELD IN BLOCKCHAIN TO CHANGE THE LOOP NODE.
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "rootnonworkinghours","name":"Access to root on non-working hours", "typesInvolved": ["resource:watcher.model.EventType#rose"],"URLs": ["event-ro-{TODAY}-rose/events","event-ro-{TODAY}-rose/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\": {\"range\": { \"event_date\": {\"gt\" : \"{TODAY}T18:00:00.00\"}}},\"must_not\":{\"term\" :{\"internal_ruleId\":\"rootnonworkinghours\"}}}}}","{\"query\":{\"bool\":{\"must\": {\"range\": { \"event_date\":{ \"lt\" : \"{TODAY}T8:00:00.00\"}}},\"must_not\":{\"term\" :{\"internal_ruleId\":\"rootnonworkinghours\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","event_date"]}' &
+	curl 'http://localhost:3000/api/watcher.transaction.AddRule' -X POST --header 'Content-Type: application/json' --header 'Accept: application/json' -d '{"id": "snmpincorrectadmin","name":"Incorrect login from admin user", "typesInvolved": ["resource:watcher.model.EventType#snla"],"URLs": ["event-snmp-{TODAY}-snla/events"],"DSLs": ["{\"query\":{\"bool\":{\"must\":[{\"term\":{\"user_name\":\"admin\"}}],\"must_not\":{\"term\" :{\"internal_ruleId\":\"snmpincorrectadmin\"}}}}}"],"fieldsOutputPath": ["source_host","monitozation_date","event_date","ip_user"]}'
+	sleep 5
+	#ADD RULE TO INCORRECT LOGINS IN 5 MINUTES FOR SNMP
+	#ADD RULE TO SNMP LOGIN FROM INCORRECT IPS
 }
 
 stopHyperledgerServers () {
