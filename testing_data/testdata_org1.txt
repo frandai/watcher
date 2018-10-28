@@ -1,0 +1,9 @@
+2018-10-28 21:19:56 12.31.42.93 SO;login.defs;/etc/;ACCESS
+2018-10-28 21:19:56 12.31.41.93 SO;shadow;/etc/;ACCESS
+2018-10-28 21:19:56 12.31.40.93 SO;shadow;/etc/;ACCESS
+2018-10-28 21:19:56 12.31.30.93 SO;passwd;/etc/;ACCESS
+2018-10-28 19:32:49 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: admin] [Source: 192.168.23.102] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 19:32:49 UTC Nov 16 2018
+2018-10-28 19:32:49 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: admin] [Source: 192.168.23.103] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 19:32:49 UTC Nov 16 2018
+2018-10-28 19:32:49 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: admin] [Source: 192.168.23.104] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 19:32:49 UTC Nov 16 2018
+2018-10-28 19:32:49 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: admin] [Source: 192.168.23.105] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 19:32:49 UTC Nov 16 2018
+2018-10-28 19:32:49 127.31.42.10 SNMP;%SEC_LOGIN-4-LOGIN_FAILED: Login failed [user: admin] [Source: 192.168.23.106] [localport: 0] [Reason: Login Authentication Failed - BadPassword] at 19:32:49 UTC Nov 16 2017
